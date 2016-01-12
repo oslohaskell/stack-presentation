@@ -158,7 +158,7 @@ $ stack exec my-project-exe
 - List available templates: `stack templates`
 - Using a template: `stack new [project name] [template]`
 
-[`github.com/commercialhaskell/stack/stack-templates`](https://github.com/commercialhaskell/stack/stack-templates)
+[`github.com/commercialhaskell/stack-templates`](https://github.com/commercialhaskell/stack-templates)
 
 ---
 
@@ -176,18 +176,23 @@ $ stack exec my-project-exe
 
 ---
 
-# Dependencies not in the stackage snapshot
+# Dependencies not in the stackage snapshot: hackage
 
-- For packages on *hackage*: `extra-deps` 
-- For local/git packages: `location` 
+    resolver: lts-4.0
+    packages:
+    - '.'
+    - extra-deps
+      - some-package-0.1.1
+      - some-other-package-0.8
 
 ---
 
-# Using packages from a git repo
+# Dependencies not in the stackage snapshot: directories/git repo
 
      resolver: lts-4.0
      packages:
      - '.'
+     - '../someproject'
      - location:
          git: git@github.com:haskell-servant/servant
          commit: 357cc839b65601975cb186a3f00a729f7f3bb2de
@@ -230,7 +235,7 @@ main = putStrLn
      =<< getContents
 ```
 
-^ The first line in the source file is the usual “shebang” to use stack as a script interpreter. The second line, is a Haskell comment providing additional options to stack (due to the common limitation of the “shebang” line only being allowed a single argument). In this case, the options tell stack to use the lts-3.2 resolver, automatically install GHC if it is not already installed, and ensure the pandoc package is available.
+^ The second line, is a Haskell comment providing additional options to stack (due to the common limitation of the “shebang” line only being allowed a single argument). In this case, the options tell stack to use the lts-3.2 resolver, automatically install GHC if it is not already installed, and ensure the pandoc package is available.
 
 ---
 
@@ -338,9 +343,12 @@ Stack can integrate with *docker* in two ways
 
 # Summary
 
+- (`stack setup`)
 - `stack new my-project`
 - `stack new my-project scotty-hello-world`
+- `stack build`/`stack test`/`stack bench`
 - `stack ghci`
+- `stack.yaml`
 
 ---
 
@@ -357,5 +365,5 @@ Stack can integrate with *docker* in two ways
 
 # Next Meetup
 
-- 2 February: *Servant: Defining web APIs at the type level*
+- 1 February: *Servant: Defining web APIs at the type level*
 - ?: *Your presentation?*
