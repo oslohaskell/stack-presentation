@@ -28,4 +28,4 @@ spec = with app $ do
 
   describe "GET /fib/8" $ do
     it "responds with some JSON" $ do
-      get "/some-json" `shouldRespondWith` [json|{input: 8, result: 21}|]
+      get "/fib/8" `shouldRespondWith` [json|{input: 8, result: 21}|]
