@@ -12,7 +12,7 @@
 
 - Tool for developing Haskell projects
 - Alternative to `cabal-install`
-- 100% compatible with `Cabal`
+- Uses `.cabal` files
 
 ^ Will get back to what that means.
 
@@ -95,6 +95,29 @@ The primary stack design point. If you run `stack build` today, you should get t
 
 ---
 
+# User-friendly
+
+- `stack --help`
+- Will try to tell you what's wrong (i.e. that you need to run `stack setup`)
+
+---
+
+# Isolated
+
+- `~/.stack` for shared files
+- `.stack-work` for project-specific files
+- Will share builds when it's safe
+
+^ Explicit sandboxing is not required by stack. All builds are automatically isolated. You won’t accidentally corrupt your installed packages with actions taken in other projects.
+
+           $ stack build
+           lifted-base-0.2.3.6: build
+           lifted-base-0.2.3.6: copy/register
+           network-2.6.2.1: copying precompiled package
+           primitive-0.6.1.0: copying precompiled package
+
+---
+
 # Stackage
 
 Curated package sets called snapshots.
@@ -114,35 +137,6 @@ Will reuse built packages across snapshots when it is safe to do so.
 - Should be committed together with the rest of the project (and the `.cabal` file)
 
 ^ To build your project, stack uses a stack.yaml file in the root directory of your project as a sort of blueprint. That file contains a reference, called a resolver, to the snapshot which your package will be built against.
-
----
-
-# Installing programs and libraries outside of a project
-
-- Global: `~/.stack/global-project/stack.yaml`
-- To install a library or an executable, simply run `stack install lens`
-- Binaries get a symlink in: `~/.local/bin`
-- Using a stack-installed ghc:
-
-    $ stack ghc
-    $ stack ghci
-    
----
-
-# Precompiled packages
-
-^ Explicit sandboxing is not required by stack. All builds are automatically isolated. You won’t accidentally corrupt your installed packages with actions taken in other projects.
-
-    $ stack build
-    lifted-base-0.2.3.6: configure
-    lifted-base-0.2.3.6: build
-    lifted-base-0.2.3.6: copy/register
-    network-2.6.2.1: copying precompiled package
-    iproute-1.5.0: configure
-    primitive-0.6.1.0: copying precompiled package
-    regex-posix-0.95.2: copying precompiled package
-    regex-compat-0.95.1: copying precompiled package
-    Progress: 5/32
 
 ---
 
@@ -177,6 +171,13 @@ $ stack exec my-project-exe
 
 ---
 
+# Demo 4: Initialize a project based a `.cabal` file
+
+`stack init` will search for a compatible resolver (snapshot) and then create
+`stack.yaml`.
+
+---
+
 # Dependencies not in the stackage snapshot
 
 - For packages on *hackage*: `extra-deps` 
@@ -201,6 +202,20 @@ $ stack exec my-project-exe
 
 ---
 
+# Installing programs and libraries outside of a project
+
+- Global: `~/.stack/global-project/stack.yaml`
+- To install a library or an executable, simply run `stack install lens`
+- Binaries get a symlink in: `~/.local/bin`
+- Using a stack-installed ghc:
+
+    $ stack ghc
+    $ stack ghci
+
+^ Will have access to libraries for the given resolver version
+
+---
+
 # Shell scripts
 
 ```haskell
@@ -210,7 +225,7 @@ $ stack exec my-project-exe
 import Text.Pandoc
 import Text.Pandoc.Error (handleError)
 
-main = putStrLn 
+main = putStrLn
      . writemediawiki def
      . handleError
      . readMarkdown def
@@ -223,10 +238,12 @@ main = putStrLn
 
 # Shell scripts
 
-    $ echo "# Heading\n\nThis is a [http://test.com](test)." | ./md2mw
+    $ echo "# Heading\n\nThis is a [http://test.com](test)." \
+    | ./md2mw
     Progress: 8/15
     
-    $ echo "# Heading\n\nThis is a [http://test.com](test)." | ./md2mw
+    $ echo "# Heading\n\nThis is a [http://test.com](test)." \
+    | ./md2mw
     = Heading =
     
     This is a [[test|http://test.com]].
@@ -251,7 +268,7 @@ all:
 Stack can integrate with *docker* in two ways
 
 1. All `stack` commands can be run in a (transient) docker image.
-2. Can create a *Docker* image that can be deployed to…
+2. Can create a *Docker* image that can be deployed to
 
 # 🌧
 
@@ -298,6 +315,7 @@ Stack can integrate with *docker* in two ways
 
 - You *can* achieve much of what stack brings with `cabal-install`
 - Sandboxes
+- Freezing
 
 ^ Sharing is hard.
 
@@ -317,6 +335,21 @@ Stack can integrate with *docker* in two ways
 
 ^ Not needed since the stackage snapshot specifies the version of all packages
 ^ PVP for hackage
+
+---
+
+# Summary
+
+- `stack new my-project`
+- `stack new my-project scotty-hello-world`
+- `stack ghci`
+
+---
+
+# More Information
+
+- [`haskellstack.org`](http://haskellstack.org/)
+- `#haskell-stack`
 
 ---
 
