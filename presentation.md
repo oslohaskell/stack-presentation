@@ -75,11 +75,9 @@ Installing stack
 
 - *User friendly, discoverable* interface: `stack --help` should be enough to get started
 
-^ stack has also been designed from the ground up to be user friendly, with an intuitive, discoverable command line interface. For many users, simply downloading stack and reading stack --help will be enough to get up and running. This guide provides a more gradual tour for users who prefer that learning style.
-
 - *Isolated*: Will only make changes to some specific stack directories
 
-^ Finally, stack is isolated: it will not make changes outside of specific stack directories. stack-built files generally go in either the stack root directory (default ~/.stack) or ./.stack-work directories local to each project. The stack root directory holds packages belonging to snapshots and any stack-installed versions of GHC. Stack will not tamper with any system version of GHC or interfere with packages installed by cabal or any other build tools.
+^ Will not touch any system version of GHC or interfere with packages installed by cabal or any other build tools.
 
 ---
 
